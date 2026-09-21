@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Support Insights RSC</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://res.cdn.office.net/teams-js/2.40.0/js/MicrosoftTeams.min.js"></script>
+</head>
+<body>
+  <main class="panel">
+    <p class="eyebrow">Read-only proof of concept</p>
+    <h1>Support Insights</h1>
+    <p>
+      This tab reserves a safe integration surface for Ignacio's dashboard. It does not load,
+      display, transmit, or store Teams messages.
+    </p>
+    <dl class="facts">
+      <div>
+        <dt>Access</dt>
+        <dd>Team-scoped application RSC</dd>
+      </div>
+      <div>
+        <dt>Permission</dt>
+        <dd>ChannelMessage.Read.Group</dd>
+      </div>
+      <div>
+        <dt>Writes</dt>
+        <dd>None</dd>
+      </div>
+    </dl>
+    <div class="status ready" id="status" role="status">Initializing Microsoft Teams…</div>
+  </main>
+  <script>
+    microsoftTeams.app.initialize()
+      .then(() => {
+        document.getElementById("status").textContent =
+          "PoC active. Dashboard integration is not enabled yet.";
+      })
+      .catch(() => {
+        document.getElementById("status").textContent =
+          "Preview mode. Open in Microsoft Teams for the installed tab experience.";
+      });
+  </script>
+</body>
+</html>
