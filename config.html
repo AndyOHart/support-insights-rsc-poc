@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Configure Support Insights RSC</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://res.cdn.office.net/teams-js/2.40.0/js/MicrosoftTeams.min.js"></script>
+</head>
+<body>
+  <main class="panel">
+    <p class="eyebrow">DevExHelper proof of concept</p>
+    <h1>Add the read-only support insights tab</h1>
+    <p>
+      This tab is the future dashboard surface for the support-insights collector. The current
+      proof of concept shows no Teams data or customer data.
+    </p>
+    <div class="status" id="status" role="status">Initializing Microsoft Teams…</div>
+  </main>
+  <script>
+    const baseUrl = "https://andyohart.github.io/support-insights-rsc-poc/";
+    const statusElement = document.getElementById("status");
+
+    async function configureTab() {
+      try {
+        await microsoftTeams.app.initialize();
+        microsoftTeams.pages.config.registerOnSaveHandler(async (saveEvent) => {
+          try {
+            await microsoftTeams.pages.config.setConfig({
+              contentUrl: `${baseUrl}content.html`,
+              websiteUrl: `${baseUrl}content.html`,
+              entityId: "devex-support-insights-rsc",
+              suggestedDisplayName: "Support Insights"
+            });
+            saveEvent.notifySuccess();
+          } catch (error) {
+            saveEvent.notifyFailure("Could not save the Support Insights tab configuration.");
+          }
+        });
+        microsoftTeams.pages.config.setValidityState(true);
+        statusElement.textContent = "Ready. Select Save to add the tab to this Team.";
+        statusElement.classList.add("ready");
+      } catch (error) {
+        statusElement.textContent = "Open this page from Microsoft Teams to configure the tab.";
+        statusElement.classList.add("error");
+      }
+    }
+
+    configureTab();
+  </script>
+</body>
+</html>
